@@ -8,3 +8,8 @@ class HomePageTest(TestCase):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
 
+class RefundingPageTest(TestCase):
+
+    def test_uses_refunding_template(self):
+        response = self.client.post('/refunding')
+        self.assertTemplateUsed(response, 'refunding.html')

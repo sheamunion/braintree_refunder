@@ -13,3 +13,5 @@ def index(request):
 
     return render(request, 'home.html', {'form': form})
 
+def refunding(request):
+        return render(request, 'refunding.html')
