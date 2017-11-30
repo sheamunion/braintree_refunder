@@ -28,13 +28,17 @@ class NewVisitorTest(unittest.TestCase):
         sandbox_button.click()
         
         # After they click their environment, they are invited to enter API keys for this account in a textbox.
-        merchant_id = self.browser.find_element_by_id("id_merchant_id")
-        public_key = self.browser.find_element_by_id("id_public_key")
-        private_key = self.browser.find_element_by_id("id_private_key")
+        merchant_id_input = self.browser.find_element_by_id("id_merchant_id")
+        public_key_input = self.browser.find_element_by_id("id_public_key")
+        private_key_input = self.browser.find_element_by_id("id_private_key")
 
-        merchant_id.send_keys("3gbwxs4qtnzpmdwh")
-        public_key.send_keys("tdetz8abf8qpb5y5")
-        private_key.send_keys("861acfc4b79d5afbc6165de24a1c9258")
+        merchant_id = os.environ["BT_MERCHANT_ID"]
+        public_key = os.environ["BT_PUBLIC_KEY"]
+        private_key = os.environ["BT_PRIVATE_KEY"]
+
+        merchant_id_input.send_keys(merchant_id)
+        public_key_input.send_keys(public_key)
+        private_key_input.send_keys(private_key)
 
         # When they submit their API keys, they are prompted to upload a CSV. They upload a CSV. 
         file_upload = self.browser.find_element_by_id("id_source_csv")
