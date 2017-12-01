@@ -1,17 +1,21 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 from .forms import RefunderForm
 
-def index(request):
+def new_refund(request):
+    form = RefunderForm()
+    return render(request, 'home.html', {'form': form})
+
+def start_refund(request):
     if request.method == 'POST':
         form = RefunderForm(request.POST, request.FILES)
         if form.is_valid():
-            return HttpResponseRedirect('/refunding')
-    else:
+            print(form.cleaned_data)
+            return redirect('/refunding')
+    else: 
         form = RefunderForm()
-
     return render(request, 'home.html', {'form': form})
 
 def refunding(request):
-        return render(request, 'refunding.html')
+    return render(request, 'refunding.html')
+

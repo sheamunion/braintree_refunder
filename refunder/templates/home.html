@@ -2,7 +2,7 @@
 
 {% block form %}
 <p>What type of account is this?</p>
-<form method="post" action="/refunding" enctype="multipart/form-data">
+<form method="post" action="/refund" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form }}
   <input type="submit" id="start_refund" value="Start refunding!" />
