@@ -21,4 +21,6 @@ class RefundPageTest(TestCase):
             response = self.client.post('/refund', {'environment': 'sandbox', 'merchant_id': 'asdf', 'public_key': 'asdf', 'private_key': 'asdf', 'source_csv': fp})
         self.assertRedirects(response, '/refunding')
     
-
+    def test_POST_to_refund_with_invalid_data_renders_new_refund_page(self):
+        response = self.client.post('/refund')
+        self.assertIn('What type of account is this?', (response.content).decode('utf-8'))

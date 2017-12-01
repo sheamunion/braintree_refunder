@@ -10,7 +10,6 @@ def start_refund(request):
     if request.method == 'POST':
         form = RefunderForm(request.POST, request.FILES)
         if form.is_valid():
-            print(form.cleaned_data)
             return redirect('/refunding')
     else: 
         form = RefunderForm()
