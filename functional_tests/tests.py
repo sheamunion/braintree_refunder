@@ -32,9 +32,9 @@ class NewVisitorTest(unittest.TestCase):
         public_key_input = self.browser.find_element_by_id("id_public_key")
         private_key_input = self.browser.find_element_by_id("id_private_key")
 
-        merchant_id = os.environ["BT_MERCHANT_ID"]
-        public_key = os.environ["BT_PUBLIC_KEY"]
-        private_key = os.environ["BT_PRIVATE_KEY"]
+        merchant_id = "dummy_merchant_id"
+        public_key  = "dummy_public_key" 
+        private_key = "dummy_private_key" 
 
         merchant_id_input.send_keys(merchant_id)
         public_key_input.send_keys(public_key)
