@@ -23,11 +23,12 @@ class RefundPageTest(TestCase):
 
     def test_POST_to_refund_redirects_to_refunding_page(self):
         dummy_file = os.path.join(settings.BASE_DIR, 'functional_tests/dummy_source.csv')
+
         with open(dummy_file) as fp:
             response = self.client.post('/refund', {'environment': 'sandbox', 'merchant_id': 'asdf', 'public_key': 'asdf', 'private_key': 'asdf', 'source_csv': fp})
-        
+
         self.assertRedirects(response, '/refunding')
-    
+
     def test_POST_to_refund_with_invalid_data_renders_new_refund_page(self):
         response = self.client.post('/refund')
 

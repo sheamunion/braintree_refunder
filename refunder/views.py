@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+import csv
 
 from .forms import RefunderForm
 from refunder.refund_job import RefundJob
@@ -18,7 +19,9 @@ def start_refund(request):
                 form.cleaned_data['private_key'],
             ]
             job = RefundJob(keys)
-            job.run(form.cleaned_data['source_csv'])
+            decoded_file = form.cleaned_data['source_csv'].read().decode('utf-8').splitlines()
+
+            job.run(decoded_file)
             
             return redirect('/refunding')
     else: 
