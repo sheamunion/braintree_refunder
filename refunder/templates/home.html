@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% if error %}
+  <p>Whoops! {{ error }}</p>
+{% endif %}
+
 {% block form %}
 <p>What type of account is this?</p>
 <form method="post" action="/refund" enctype="multipart/form-data">

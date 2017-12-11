@@ -9,6 +9,7 @@ def new_refund(request):
     return render(request, 'home.html', {'form': form})
 
 def start_refund(request):
+    error = False
     if request.method == 'POST':
         form = RefunderForm(request.POST, request.FILES)
         if form.is_valid():
@@ -18,15 +19,16 @@ def start_refund(request):
                 form.cleaned_data['public_key'], 
                 form.cleaned_data['private_key'],
             ]
-            job = RefundJob(keys)
             decoded_file = form.cleaned_data['source_csv'].read().decode('utf-8').splitlines()
-
-            job.run(decoded_file)
-            
-            return redirect('/refunding')
+            try:	
+                job = RefundJob(keys, decoded_file)
+                job.run()
+                return redirect('/refunding')
+            except TypeError as e:
+                error = "API keys are incorrect."
     else: 
         form = RefunderForm()
-    return render(request, 'home.html', {'form': form})
+    return render(request, 'home.html', {'form': form, 'error': error})
 
 def refunding(request):
     return render(request, 'refunding.html')

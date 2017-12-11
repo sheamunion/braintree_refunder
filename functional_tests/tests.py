@@ -1,6 +1,6 @@
+from django.conf import settings
 from selenium import webdriver
-import os
-import unittest
+import glob, os, time, unittest
 
 
 class NewVisitorTest(unittest.TestCase):
@@ -12,6 +12,8 @@ class NewVisitorTest(unittest.TestCase):
 
     def tearDown(self):
         self.browser.quit()
+        for f in glob.glob(os.path.join(settings.BASE_DIR, 'refunder/files/*')):
+            os.remove(f)
 
     def test_anonymous_user_can_start_a_refund(self):
         # They notice the title and header mention refunding Braintree transactions
@@ -32,9 +34,9 @@ class NewVisitorTest(unittest.TestCase):
         public_key_input = self.browser.find_element_by_id("id_public_key")
         private_key_input = self.browser.find_element_by_id("id_private_key")
 
-        merchant_id = "dummy_merchant_id"
-        public_key  = "dummy_public_key" 
-        private_key = "dummy_private_key" 
+        merchant_id = os.getenv("BT_MERCHANT_ID")
+        public_key  = os.getenv("BT_PUBLIC_KEY") 
+        private_key = os.getenv("BT_PRIVATE_KEY") 
 
         merchant_id_input.send_keys(merchant_id)
         public_key_input.send_keys(public_key)
@@ -49,6 +51,7 @@ class NewVisitorTest(unittest.TestCase):
 
         # They click "Start refunding!" They are directed to a page with a status bar showing the progress of the refund job.
         self.browser.find_element_by_id("start_refund").click()
+        time.sleep(2)
         refunding_url = self.browser.current_url
         status_page_text = self.browser.find_element_by_tag_name("body").text
         status_bar = self.browser.find_element_by_id("status")
