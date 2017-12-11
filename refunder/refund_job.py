@@ -10,39 +10,28 @@ from .transaction_loader import TransactionLoader
 
 class RefundJob():
 
-    def __init__(self, keys):
-        self.__configure(keys)
+    def __init__(self, keys, source_file = None):
+        self.gateway = BraintreeRefundGateway(keys)
+        self.transaction_loader = TransactionLoader(source_file)
 
-    def __configure(self, keys):
-        if keys[0] == "sandbox":
-            return braintree.Environment.Sandbox
-        else:
-            return braintree.Environment.Production
-
-        braintree.Configuration.configure(
-            bt_environment,
-            merchant_id = os.environ["BT_MERCHANT_ID"],
-            public_key = os.envrion["BT_PUBLIC_KEY"],
-            private_key = os.environ["BT_PRIVATE_KEY"],
-        )
-
-    def run(self, source_file, log_file = None):
-        transactions = TransactionLoader(source_file).all()
+    def run(self, log_file = None):
+        transactions = self.transaction_loader.all()
         if not log_file:
             log_file = self.__create_log_file()
         txn_refund_logs = []
 
         for txn in transactions:
-            txn_refund_logs.append(BraintreeRefundGateway.refund(txn))
+            txn_refund_logs.append(self.gateway.find_void_or_refund(txn))
 
-        with open(log_file, "r+") as log_file:
-            log_file.write("transaction_id,refund_transaction_id,status,message")
+        with open(log_file, 'r+') as log_file:
+            log_file.write('transaction_id,refunded_transaction_id,status,message\n')
             for log in txn_refund_logs:
-                log_file.write("{},{},{},{}".format(log["transaction_id"], log["refund_transaction_id"], log["status"], log["message"]))
-                log_file.close()
+                log_file.write('{},{},{},{}'.format(log[0], log[1], log[2], log[3]))
+
+        return
 
     def __create_log_file(self):
-        handle, file_path = tempfile.mkstemp(suffix="_log_" + datetime.now().strftime("%Y%m%d-%H%M%S") + ".csv", dir=os.path.join(settings.BASE_DIR, "refunder/files"))
+        handle, file_path = tempfile.mkstemp(suffix='_log_' + datetime.now().strftime('%Y%m%d-%H%M%S') + '.csv', dir=os.path.join(settings.BASE_DIR, 'refunder/files'))
 
         return file_path
 
