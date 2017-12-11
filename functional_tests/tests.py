@@ -1,6 +1,6 @@
+from django.conf import settings
 from selenium import webdriver
-import os
-import unittest
+import glob, os, time, unittest
 
 
 class NewVisitorTest(unittest.TestCase):
@@ -12,6 +12,8 @@ class NewVisitorTest(unittest.TestCase):
 
     def tearDown(self):
         self.browser.quit()
+        for f in glob.glob(os.path.join(settings.BASE_DIR, 'refunder/files/*')):
+            os.remove(f)
 
     def test_anonymous_user_can_start_a_refund(self):
         # They notice the title and header mention refunding Braintree transactions
@@ -28,13 +30,17 @@ class NewVisitorTest(unittest.TestCase):
         sandbox_button.click()
         
         # After they click their environment, they are invited to enter API keys for this account in a textbox.
-        merchant_id = self.browser.find_element_by_id("id_merchant_id")
-        public_key = self.browser.find_element_by_id("id_public_key")
-        private_key = self.browser.find_element_by_id("id_private_key")
+        merchant_id_input = self.browser.find_element_by_id("id_merchant_id")
+        public_key_input = self.browser.find_element_by_id("id_public_key")
+        private_key_input = self.browser.find_element_by_id("id_private_key")
 
-        merchant_id.send_keys("3gbwxs4qtnzpmdwh")
-        public_key.send_keys("tdetz8abf8qpb5y5")
-        private_key.send_keys("861acfc4b79d5afbc6165de24a1c9258")
+        merchant_id = os.getenv("BT_MERCHANT_ID")
+        public_key  = os.getenv("BT_PUBLIC_KEY") 
+        private_key = os.getenv("BT_PRIVATE_KEY") 
+
+        merchant_id_input.send_keys(merchant_id)
+        public_key_input.send_keys(public_key)
+        private_key_input.send_keys(private_key)
 
         # When they submit their API keys, they are prompted to upload a CSV. They upload a CSV. 
         file_upload = self.browser.find_element_by_id("id_source_csv")
@@ -45,6 +51,7 @@ class NewVisitorTest(unittest.TestCase):
 
         # They click "Start refunding!" They are directed to a page with a status bar showing the progress of the refund job.
         self.browser.find_element_by_id("start_refund").click()
+        time.sleep(2)
         refunding_url = self.browser.current_url
         status_page_text = self.browser.find_element_by_tag_name("body").text
         status_bar = self.browser.find_element_by_id("status")
