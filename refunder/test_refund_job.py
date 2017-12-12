@@ -29,7 +29,7 @@ class RefundJobTest(TestCase):
         job.transaction_loader = transaction_loader_mock
         job.gateway = braintree_refunder_gateway_mock 
 
-        job.run(self.DUMMY_LOG_FILE)
+        job.run(self.VALID_KEYS[1], self.DUMMY_LOG_FILE)
 
         with open(self.DUMMY_LOG_FILE) as log:
             log_text = log.read()
@@ -43,19 +43,19 @@ class RefundJobTest(TestCase):
             DUMMY_FILE = source_file.read().splitlines()
 
         braintree_refunder_gateway_mock = Mock() 
-        braintree_refunder_gateway_mock.find_void_or_refund.side_effect = [['a','ra','SUCCESS','Transaction refunded.\n'],
-                                                                           ['b','rb','SUCCESS','Transaction refunded.\n'],
-                                                                           ['c','rc','SUCCESS','Transaction refunded.\n']]
+        braintree_refunder_gateway_mock.find_void_or_refund.side_effect = [['a','ra','SUCCESS','Transaction refunded.'],
+                                                                           ['b','rb','SUCCESS','Transaction refunded.'],
+                                                                           ['c','rc','SUCCESS','Transaction refunded.']]
 
         job = RefundJob(self.VALID_KEYS, DUMMY_FILE)
        	job.gateway = braintree_refunder_gateway_mock 
         
-        job.run(self.DUMMY_LOG_FILE)
+        job.run(self.VALID_KEYS[1], self.DUMMY_LOG_FILE)
 
         with open(self.DUMMY_LOG_FILE) as log:
             log_text = log.read()
             log.close()
 
-        self.assertIn('a,ra,SUCCESS,Transaction refunded.\n', log_text)
-        self.assertIn('b,rb,SUCCESS,Transaction refunded.\n', log_text)
-        self.assertIn('c,rc,SUCCESS,Transaction refunded.\n', log_text)
+        self.assertIn('a,ra,SUCCESS,Transaction refunded.', log_text)
+        self.assertIn('b,rb,SUCCESS,Transaction refunded.', log_text)
+        self.assertIn('c,rc,SUCCESS,Transaction refunded.', log_text)
