@@ -8,7 +8,7 @@ class NewVisitorTest(unittest.TestCase):
     def setUp(self):
         self.browser = webdriver.Chrome()
         # A Braintreep visits the refunder homepage
-        self.browser.get("http://localhost:8000")
+        self.browser.get('http://localhost:8000')
 
     def tearDown(self):
         self.browser.quit()
@@ -17,11 +17,11 @@ class NewVisitorTest(unittest.TestCase):
 
     def test_anonymous_user_can_start_a_refund(self):
         # They notice the title and header mention refunding Braintree transactions
-        self.assertIn("Refund", self.browser.title)
+        self.assertIn('Refund', self.browser.title)
 
-        # They are invited to choose for which environment they need to refund txns: "Sandbox" or "Production".
-        production_button = self.browser.find_element_by_id("id_environment_0")
-        sandbox_button = self.browser.find_element_by_id("id_environment_1")
+        # They are invited to choose for which environment they need to refund txns: 'Sandbox' or 'Production'.
+        production_button = self.browser.find_element_by_id('id_environment_0')
+        sandbox_button = self.browser.find_element_by_id('id_environment_1')
 
         assert production_button
         assert sandbox_button
@@ -30,43 +30,42 @@ class NewVisitorTest(unittest.TestCase):
         sandbox_button.click()
         
         # After they click their environment, they are invited to enter API keys for this account in a textbox.
-        merchant_id_input = self.browser.find_element_by_id("id_merchant_id")
-        public_key_input = self.browser.find_element_by_id("id_public_key")
-        private_key_input = self.browser.find_element_by_id("id_private_key")
+        merchant_id_input = self.browser.find_element_by_id('id_merchant_id')
+        public_key_input = self.browser.find_element_by_id('id_public_key')
+        private_key_input = self.browser.find_element_by_id('id_private_key')
 
-        merchant_id = os.getenv("BT_MERCHANT_ID")
-        public_key  = os.getenv("BT_PUBLIC_KEY") 
-        private_key = os.getenv("BT_PRIVATE_KEY") 
+        merchant_id = os.getenv('BT_MERCHANT_ID')
+        public_key  = os.getenv('BT_PUBLIC_KEY') 
+        private_key = os.getenv('BT_PRIVATE_KEY') 
 
         merchant_id_input.send_keys(merchant_id)
         public_key_input.send_keys(public_key)
         private_key_input.send_keys(private_key)
 
         # When they submit their API keys, they are prompted to upload a CSV. They upload a CSV. 
-        file_upload = self.browser.find_element_by_id("id_source_csv")
-        dummy_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "dummy_source.csv")
+        file_upload = self.browser.find_element_by_id('id_source_csv')
+        dummy_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dummy_source.csv')
         file_upload.send_keys(dummy_file)
 
-# TODO: They are prompted with a message: "We noticed you provided transaction ids and no optional amounts to refund. We"ll refund the full amount."
+# TODO: They are prompted with a message: 'We noticed you provided transaction ids and no optional amounts to refund. We'll refund the full amount.'
 
-        # They click "Start refunding!" They are directed to a page with a status bar showing the progress of the refund job.
-        self.browser.find_element_by_id("start_refund").click()
+        # They click 'Start refunding!' They are directed to a page with a status bar showing the progress of the refund job.
+        self.browser.find_element_by_id('start_refund').click()
         time.sleep(2)
         refunding_url = self.browser.current_url
-        status_page_text = self.browser.find_element_by_tag_name("body").text
-        status_bar = self.browser.find_element_by_id("status")
+        status_page_text = self.browser.find_element_by_tag_name('body').text
+        status_bar = self.browser.find_element_by_id('status')
         self.assertRegex(refunding_url, '/refunding')
-        self.assertIn("Refunding transactions...", status_page_text)
+        self.assertIn('Refunding transactions...', status_page_text)
         assert status_bar
         
-
-# The refund job completes and the "treep is directed to a summary page. The "treep downloads a log file in CSV format. The "treep also sees a helpful summary of the results of the job including total txns refunded, total txns voided, number of failures.
-
+# The refund job completes and the 'treep is directed to a summary page. The 'treep downloads a log file in CSV format. The 'treep also sees a helpful summary of the results of the job including total txns refunded, total txns voided, number of failures.
 
 
 
 
-# They click "Nope. Let me upload a new CSV with amounts." and are redirected to the previous step.
+
+# They click 'Nope. Let me upload a new CSV with amounts.' and are redirected to the previous step.
 
 # They upload the correct CSV
 

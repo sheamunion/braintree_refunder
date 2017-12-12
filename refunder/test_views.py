@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.test import TestCase
-import glob
-import os
+import glob, os
 
 from .forms import RefunderForm
 
@@ -44,6 +43,8 @@ class RefundPageTest(TestCase):
         with open(dummy_file) as fp:
             response = self.client.post('/refund', {'environment': VALID_KEYS[0], 'merchant_id': VALID_KEYS[1], 'public_key': VALID_KEYS[2], 'private_key': VALID_KEYS[3], 'source_csv': fp})
 
-        self.assertRedirects(response, '/refunding')
+        for f in glob.glob(os.path.join(settings.BASE_DIR, 'refunder/files/' + VALID_KEYS[1] + '*')):
+            log_file_name = f
 
+        self.assertRedirects(response, '/refunding/' + os.path.basename(log_file_name) + '/')
 

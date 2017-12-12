@@ -3,4 +3,6 @@
 {% block refunding %}
   <p>Refunding transactions...</p>
   <div id="status"></div>
+  {{ file_path }}
+  <a href="{% url 'download' file_name=file_name %}">Download </a>
 {% endblock refunding %}

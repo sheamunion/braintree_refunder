@@ -1,7 +1,6 @@
 from datetime import datetime
 from django.conf import settings
-import os
-import tempfile
+import csv, os, tempfile
 
 import braintree
 
@@ -14,24 +13,27 @@ class RefundJob():
         self.gateway = BraintreeRefundGateway(keys)
         self.transaction_loader = TransactionLoader(source_file)
 
-    def run(self, log_file = None):
+    def run(self, merchant_id, log_file = None):
         transactions = self.transaction_loader.all()
         if not log_file:
-            log_file = self.__create_log_file()
+            log_file = self.__create_log_file(merchant_id)
         txn_refund_logs = []
 
         for txn in transactions:
             txn_refund_logs.append(self.gateway.find_void_or_refund(txn))
 
-        with open(log_file, 'r+') as log_file:
-            log_file.write('transaction_id,refunded_transaction_id,status,message\n')
+        with open(log_file, 'w', newline='') as log_file:
+            log_writer = csv.writer(log_file)
+            log_writer.writerow(['transaction_id','refunded_transaction_id','status','message'])
             for log in txn_refund_logs:
-                log_file.write('{},{},{},{}'.format(log[0], log[1], log[2], log[3]))
+                log_writer.writerow([log[0],log[1],log[2],log[3]])
+            log_file.close()
+    
+        log_file_name = os.path.basename(log_file.name)
+        return log_file_name
 
-        return
-
-    def __create_log_file(self):
-        handle, file_path = tempfile.mkstemp(suffix='_log_' + datetime.now().strftime('%Y%m%d-%H%M%S') + '.csv', dir=os.path.join(settings.BASE_DIR, 'refunder/files'))
+    def __create_log_file(self, merchant_id):
+        _, file_path = tempfile.mkstemp(prefix=merchant_id + '_', suffix='_log_' + datetime.now().strftime('%Y%m%d-%H%M%S') + '.csv', dir=os.path.join(settings.BASE_DIR, 'refunder/files'))
 
         return file_path
 

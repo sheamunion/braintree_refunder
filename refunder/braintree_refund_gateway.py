@@ -38,15 +38,16 @@ class BraintreeRefundGateway():
         txn_amount = txn_dict['amount']
 
         txn_find_result = self.find(txn_id)
-
+        
         if type(txn_find_result) is not braintree.transaction.Transaction:
             return txn_find_result
 
         if self.is_voidable(txn_find_result):
             result = self.void(txn_id)
+        elif self.is_refundable(txn_find_result):
+            result = self.refund(txn_id, txn_amount)
         else:
-            result = self.refund(txn_id, amount)
-
+            result = [txn_id, '', 'NO OPERATION', 'Transaction must have a status in "Authorized, Submitted For Settlement, Settlement Pending, Settling, or Settled."']
         return result
 
     def find(self, txn_id):
@@ -55,7 +56,7 @@ class BraintreeRefundGateway():
         except braintree.exceptions.not_found_error.NotFoundError as e:
             return [txn_id, '', 'NOT FOUND', 'Transaction does not exist.']
 
-    def is_voidable(txn):
+    def is_voidable(self, txn):
         VOIDABLE_STATUSES_FOR_CARDS  = ['authorized', 'submitted_for_settlement']
         VOIDABLE_STATUSES_FOR_PAYPAL = ['settlement_pending'] + VOIDABLE_STATUSES_FOR_CARDS
 
@@ -64,18 +65,21 @@ class BraintreeRefundGateway():
         
         return True if txn.status in VOIDABLE_STATUSES_FOR_CARDS else False
          
-    def void(txn_id):
+    def void(self, txn_id):
         result = braintree.Transaction.void(txn_id)
 
-        if result.success:
+        if result.is_success:
             return [txn_id, result.transaction.id, 'SUCCESS', 'Transaction voided.']
         else:
             return [txn_id, '', 'FAILURE', result.message]
 
-    def refund(txn_id, amount):
+    def is_refundable(self, txn):
+        REFUNDABLE_STATUSES = ['settled', 'settling']
+        return True if txn.status in REFUNDABLE_STATUSES else False
 
+    def refund(self, txn_id, amount):
         result = braintree.Transaction.refund(txn_id, amount)
-        if result.success:
+        if result.is_success:
             return [txn_id, result.transaction.id, 'SUCCESS', 'Transaction refunded.']
         else:
             return [txn_id, '', 'FAILURE', result.message]
