@@ -22,4 +22,4 @@ Start gunicorn within virutal envionrment:
 
 `gunicorn braintree_refunder.wsgi`
 
-Navigate to the [url](http://ec2-34-212-0-78.us-west-2.compute.amazonaws.com/)
+Navigate to the [http://braintree-refunder.thoughtaware.com](http://braintree-refunder.thoughtaware.com)
