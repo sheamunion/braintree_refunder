@@ -22,4 +22,4 @@ Start gunicorn within virutal envionrment:
 
 `gunicorn braintree_refunder.wsgi`
 
-Navigate to the [http://braintree-refunder.thoughtaware.com](http://braintree-refunder.thoughtaware.com)
+Navigate to [http://braintree-refunder.thoughtaware.com](http://braintree-refunder.thoughtaware.com)
