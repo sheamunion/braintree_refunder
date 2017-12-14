@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
 {% block refunding %}
-  <p>Refunding transactions...</p>
-  <div id="status"></div>
-  <a href="{% url 'download' file_name=file_name %}">Download </a>
+  <div id="status">
+    <h1>Refund job completed!</h1>
+    <p>The job has been completed. <a href="{% url 'download' file_name=file_name %}">Click here to download the logs.</a></p>
+  </div>
+
+  <p><a href="{% url 'new_refund' %}">Start another refund job.</a></p>
+
 {% endblock refunding %}
