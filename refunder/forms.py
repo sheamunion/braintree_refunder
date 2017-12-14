@@ -7,3 +7,4 @@ class RefunderForm(forms.Form):
     public_key  = forms.CharField(label='Public Key', max_length=64, widget=forms.PasswordInput())
     private_key = forms.CharField(label='Private Key', max_length=128, widget=forms.PasswordInput())
     source_csv  = forms.FileField()
+    phone       = forms.RegexField(regex=r'^\d{10}$')
