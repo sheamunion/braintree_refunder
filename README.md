@@ -1,4 +1,4 @@
-# [braintree_refunder](http://braintree-refunder.thoughtaware.com)
+# [braintree_refunder](https://braintree-refunder.thoughtaware.com)
 
 ## Purpose:
 
@@ -87,4 +87,4 @@ Start gunicorn within virutal envionrment:
 
 `gunicorn braintree_refunder.wsgi`
 
-Navigate to [http://braintree-refunder.thoughtaware.com](http://braintree-refunder.thoughtaware.com)
+Navigate to [https://braintree-refunder.thoughtaware.com](https://braintree-refunder.thoughtaware.com)
