@@ -1,5 +1,16 @@
 # [braintree_refunder](https://braintree-refunder.thoughtaware.com)
 
+## Table of Contents
+
+* [Purpose](#purpose)
+* [Input](#input)
+* [Output](#output)
+* [Input](#input)
+* [TODO](#todo)
+* [Requirements](#requirements)
+* [Run the project locally](#run-the-project-locally)
+* [Run the tests](#run-the-tests)
+
 ## Purpose:
 
 Automatically void or refund Braintree transactions.
