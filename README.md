@@ -107,25 +107,3 @@ python3 manage.py test refunder
 ```
 python3 manage.py test refunder.test_module_name
 ``` 
-
-## Running the service on AWS EC2
-
-Connect to AWS instance via SSH:
-
-`ssh aws`
-
-_The config for this ssh command is in ~/.ssh/config._
-
-Start nginx web server:
-
-`sudo service nginx start`
-
-Start the virutal environment:
-
-`source /tmp/braintree_refunder/bin/activate`
-
-Start gunicorn within virutal envionrment:
-
-`gunicorn braintree_refunder.wsgi`
-
-Navigate to [https://braintree-refunder.thoughtaware.com](https://braintree-refunder.thoughtaware.com)
