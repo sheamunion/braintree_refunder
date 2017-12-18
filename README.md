@@ -68,6 +68,59 @@ Automatically void or refund Braintree transactions.
 - [ ] Create a Dockerfile and image.
   - [ ] Use the Docker image on the EC2 instance.
 
+## Requirements
+
+* Python3
+* pip3
+* Development app secret key. [Follow these instructions](https://stackoverflow.com/a/16630719/5326365) to generate `APP_SECRET_KEY`.
+* Braintree [Sandbox or Production API keys](https://articles.braintreepayments.com/control-panel/important-gateway-credentials#api-keys)
+* Twilio SID and Token. Find these in [your Twilio account](https://twilio.com/user/account).
+
+## Run the project locally
+
+1. Clone the repo.
+2. Create a virtual environment
+```
+python3 -m venv venv
+```
+3. Activate the venv
+```
+source venv/bin/activate
+```
+4. Install requirements
+```
+pip3 install -r requirements.txt
+```
+5. Copy example.env file to .env file in project root and add keys.
+* See [requirements](#requirements)
+6. Create a `files` directory in the `refunder/` app.
+```
+mkdir refunder/files
+```
+7. Run the development server
+```
+python3 manage.py runserver
+```
+
+## Run the tests
+
+1. Run the development server.
+```
+python3 manage.py runserver
+```
+2. Run the functional tests.
+```
+python3 manage.py test functional_tests
+```
+7. Run the unit tests
+```
+python3 manage.py test refunder
+```
+8. Run unit tests for a specific module
+```
+python3 manage.py test refunder.test_module_name
+``` 
+
 ## Running the service on AWS EC2
 
 Connect to AWS instance via SSH:
