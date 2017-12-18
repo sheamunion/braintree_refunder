@@ -5,7 +5,6 @@
 * [Purpose](#purpose)
 * [Input](#input)
 * [Output](#output)
-* [Input](#input)
 * [TODO](#todo)
 * [Requirements](#requirements)
 * [Run the project locally](#run-the-project-locally)
