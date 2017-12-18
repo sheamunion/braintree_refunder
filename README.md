@@ -42,9 +42,10 @@ Automatically void or refund Braintree transactions.
 
 - [x] User can choose environmetn, add API keys, and upload a source file in required format.
 - [x] User can provide a U.S. phone number
-- [x] User can receive an SMS notification when job is complete
 - [x] User can download a valid output CSV with logs
 - [x] braintree_refunder is hosted on AWS EC2
+- [x] User can receive an SMS notification when job is complete
+- [ ] Add tests for SMS story
 - [ ] User can upload a file with headers other than `id,amount`. ([`TransactionLoader` module](https://github.com/sheamunion/braintree_refunder/blob/master/refunder/transaction_loader.py))
 - [ ] User is returned to form with specific feedback when an error occurs
   * i.e. a user provides invalid Braintree API keys and Braintree throws an Authorization Error
@@ -66,7 +67,7 @@ Automatically void or refund Braintree transactions.
 - [ ] Spruce up the f/e presentation and user experience.
 - [ ] Create a Dockerfile and image.
   - [ ] Use the Docker image on the EC2 instance.
- 
+
 ## Running the service on AWS EC2
 
 Connect to AWS instance via SSH:
