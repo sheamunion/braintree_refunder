@@ -5,6 +5,7 @@
 * [Purpose](#purpose)
 * [Input](#input)
 * [Output](#output)
+* [Contributing](#contributing)
 * [TODO](#todo)
 * [Requirements](#requirements)
 * [Run the project locally](#run-the-project-locally)
@@ -46,9 +47,13 @@ Automatically void or refund Braintree transactions.
 
 2. _If phone number was provided_, an SMS notification.
 
+## Contributing
+
+See [CONTRIBUTING.md](https://github.com/sheamunion/braintree_refunder/blob/master/CONTRIBUTING.md).
+
 ## TODO
 
-See [TODO.md](https://github.com/sheamunion/braintree_refunder/blob/master/TODO.md)
+See [TODO.md](https://github.com/sheamunion/braintree_refunder/blob/master/TODO.md).
 
 ## Requirements
 
