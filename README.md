@@ -59,6 +59,7 @@ See [TODO.md](https://github.com/sheamunion/braintree_refunder/blob/master/TODO.
 
 * Python3
 * pip3
+* Chrome web driver. [Get it here](https://sites.google.com/a/chromium.org/chromedriver/downloads).
 * Development app secret key. [Follow these instructions](https://stackoverflow.com/a/16630719/5326365) to generate `APP_SECRET_KEY`.
 * Braintree [Sandbox or Production API keys](https://articles.braintreepayments.com/control-panel/important-gateway-credentials#api-keys)
 * Twilio SID and Token. Find these in [your Twilio account](https://twilio.com/user/account).
