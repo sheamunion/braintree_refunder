@@ -59,8 +59,9 @@ See [TODO.md](https://github.com/sheamunion/braintree_refunder/blob/master/TODO.
 
 * Python3
 * pip3
+* Django
 * Chrome web driver. [Get it here](https://sites.google.com/a/chromium.org/chromedriver/downloads).
-* Development app secret key. [Follow these instructions](https://stackoverflow.com/a/16630719/5326365) to generate `APP_SECRET_KEY`.
+* An APP_SECRET_KEY. [From the Django docs](https://docs.djangoproject.com/en/2.0/ref/settings/#std:setting-SECRET_KEY), "A secret key for a particular Django installation. This is used to provide cryptographic signing, and should be set to a unique, unpredictable value." [Follow these instructions](https://stackoverflow.com/a/16630719/5326365) to generate an `APP_SECRET_KEY`.
 * Braintree [Sandbox or Production API keys](https://articles.braintreepayments.com/control-panel/important-gateway-credentials#api-keys)
 * Twilio SID and Token. Find these in [your Twilio account](https://twilio.com/user/account).
 
