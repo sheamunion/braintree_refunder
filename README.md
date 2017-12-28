@@ -101,11 +101,11 @@ python3 manage.py runserver
 ```
 python3 manage.py test functional_tests
 ```
-7. Run the unit tests
+3. Run the unit tests
 ```
 python3 manage.py test refunder
 ```
-8. Run unit tests for a specific module
+4. Run unit tests for a specific module
 ```
 python3 manage.py test refunder.test_module_name
 ``` 
