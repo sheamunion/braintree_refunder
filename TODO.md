@@ -24,7 +24,7 @@
   * xxx.xxx.xxxx
   * +1xxx.xxx.xxx
 - [ ] Add a task queue like celery or django-rq to handle refund job asynchronously.
-  - [ ] After user clicks submit, Django returns a 200 and renders a "refunding status" page.
+  - [ ] After user clicks submit, Django returns a 200 and renders a "refunding status" page.
   - [ ] The "refunding status" page periodically pings an endpoint on the server which returns the progress of the job. When the job is complete, it returns a url where the log can be downloaded.
 - [ ] Spruce up the f/e presentation and user experience.
 - [ ] Create a Dockerfile and image.
