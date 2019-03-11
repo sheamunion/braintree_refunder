@@ -1,4 +1,4 @@
-# [braintree_refunder](https://braintree-refunder.thoughtaware.com)
+# braintree_refunder
 
 ## Table of Contents
 
